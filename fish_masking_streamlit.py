@@ -5,7 +5,6 @@ import fastai.vision.all as fai_vision
 import numpy as np
 from pathlib import Path
 from PIL import Image
-import matplotlib.pyplot as plt
 
 def main():
     st.title('Fish Masker')
@@ -30,20 +29,24 @@ def main():
         single_pil = Image.open(single_file[0])
         input_dl = segmenter.dls.test_dl(single_file)
         masks, _ = segmenter.get_preds(dl=input_dl)
-        masked_pil = mask_fish_pil(single_pil, masks[0])
+        masked_pil, percentage_fish = mask_fish_pil(single_pil, masks[0])
 
         st.markdown('## Masked image')
+        st.markdown(f'**{percentage_fish:.1f}%** of pixels were labels as "fish"')
         st.image(masked_pil, use_column_width=True)
 
 def mask_fish_pil(unmasked_fish, fastai_mask):
     unmasked_np = np.array(unmasked_fish)
     np_mask = fastai_mask.argmax(dim=0).numpy()
+    total_pixels = np_mask.size
+    fish_pixels = np.count_nonzero(np_mask)
+    percentage_fish = (fish_pixels / total_pixels) * 100
     np_mask = (255 / np_mask.max() * (np_mask - np_mask.min())).astype(np.uint8)
     np_mask = np.array(Image.fromarray(np_mask).resize(unmasked_np.shape[1::-1], Image.BILINEAR))
     np_mask = np_mask.reshape(*np_mask.shape, 1) / 255
     masked_fish_np = (unmasked_np * np_mask).astype(np.uint8)
     masked_fish_pil = Image.fromarray(masked_fish_np)
-    return masked_fish_pil
+    return masked_fish_pil, percentage_fish
 
 @st.cache(allow_output_mutation=True)
 def load_model():
