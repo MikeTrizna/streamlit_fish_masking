@@ -1,2 +1,3 @@
 *.pth
+*.pkl
 .DS_Store

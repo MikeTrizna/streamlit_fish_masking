@@ -37,7 +37,7 @@ def main():
         masked_pil, percentage_fish = mask_fish_pil(single_pil, masks[0])
 
         st.markdown('## Masked image')
-        st.markdown(f'**{percentage_fish:.1f}%** of pixels were labels as "fish"')
+        st.markdown(f'**{percentage_fish:.1f}%** of pixels were labeled as "fish"')
         st.image(masked_pil, use_column_width=True)
 
         masked_pil.save('masked.jpg')
@@ -150,12 +150,12 @@ def download_file(file_path):
 IMAGE_TYPES = ["png", "jpg","jpeg"]
 
 EXTERNAL_DEPENDENCIES = {
-    "models/fish_mask_model_2021_08_17.pth": {
-        "url": "https://www.dropbox.com/s/e9c4oi6tf5qnqyd/fish_mask_model_2021_08_17.pth?dl=1",
+    "models/fish_mask_model.pth": {
+        "url": "https://figshare.com/ndownloader/files/31976030?private_link=2e7b8378b20d3537a643",
         "size": 494929527
     },
-    "models/perumixed3.pkl": {
-        "url": "https://www.dropbox.com/s/31e6wuwrlm66sco/perumixed3.pkl?dl=1",
+    "models/fish_classification_model.pkl": {
+        "url": "https://figshare.com/ndownloader/files/31975979?private_link=2e7b8378b20d3537a643",
         "size": 179319095
     }
 }
