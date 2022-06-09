@@ -94,7 +94,7 @@ def load_unet_model():
         batch_tfms = [fai_vision.IntToFloatTensor(div_mask = 255)],
         valid_pct = 0.2, num_workers = 0)
     segmenter = fai_vision.unet_learner(data_loader, fai_vision.resnet34)
-    segmenter.load('fish_mask_model_2021_08_17')
+    segmenter.load('fish_mask_model')
     return data_loader, segmenter
 
 @st.cache(allow_output_mutation=True)
@@ -103,7 +103,7 @@ def load_classification_model():
 
     if plt == 'Linux' or plt == 'Darwin': 
         pathlib.WindowsPath = pathlib.PosixPath
-    inf_model = fai_vision.load_learner('models/perumixed3.pkl', cpu=True)
+    inf_model = fai_vision.load_learner('models/fish_classification_model.pkl', cpu=True)
 
     return inf_model
 
